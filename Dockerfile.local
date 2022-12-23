@@ -1,5 +1,4 @@
-# build stage
-FROM rust:1.57.0 as build
+FROM rust:1.66.0
 
 # install libpq, libsqlite and create new empty binary project
 RUN apt-get update; \
@@ -10,7 +9,6 @@ RUN apt-get update; \
 
 WORKDIR /api
 
-# RUN cargo install systemfd cargo-watch
-RUN cargo install
+RUN cargo install systemfd cargo-watch
 
 COPY . .

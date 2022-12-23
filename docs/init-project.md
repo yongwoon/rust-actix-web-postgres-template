@@ -3,7 +3,9 @@
 - create project
 
 ```bash
-cargo new [PROJECT NAME]
+docker-compose run --rm api cargo new [PROJECT_NAME]
 ```
 
-- `actix-web`, `actix-rt` を `cargo.toml` に記述
+- `[PROJECT_NAME]` folder になる全ての file を root dir に移動
+
+- `actix-web` を `cargo.toml` に記述
