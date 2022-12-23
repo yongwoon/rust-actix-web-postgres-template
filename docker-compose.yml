@@ -1,0 +1,50 @@
+version: "3"
+services:
+  api:
+    container_name: dev_rust_actix_api
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    environment:
+      # - RUST_BACKTRACE=1
+      APP_HOST: 0.0.0.0
+      APP_PORT: 3000
+      # DATABASE_URL: postgres://[USER]:[PASSWORD]@[HOST]/[DB NAME]
+      # DATABASE_URL: postgres://admin:test1234@db/rust_actix_development
+    # restart: always
+    command: /bin/sh -c "cargo watch -x run"
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./:/api"
+      - "cargo-cache:/usr/local/cargo/registry"
+      - "target-cache:/api/target"
+    links:
+      - db
+    networks:
+      - dev_rust_actix_network
+    depends_on:
+      - db
+  db:
+    container_name: dev_rust_actix_db
+    image: "postgres:14.1"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    # restart: always
+    networks:
+      - dev_rust_actix_network
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+networks:
+  dev_rust_actix_network:
+
+volumes:
+  pgdata:
+  cargo-cache:
+  target-cache:

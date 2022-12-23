@@ -1,0 +1,16 @@
+# build stage
+FROM rust:1.57.0 as build
+
+# install libpq, libsqlite and create new empty binary project
+RUN apt-get update; \
+    apt-get install --no-install-recommends -y \
+    git vim wget libpq-dev libsqlite3-dev \
+    postgresql-client; \
+    rm -rf /var/lib/apt/lists/*; 
+
+WORKDIR /api
+
+# RUN cargo install systemfd cargo-watch
+RUN cargo install
+
+COPY . .
